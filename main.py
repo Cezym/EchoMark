@@ -29,7 +29,8 @@ if audio_title is not None:
     audio, sr = librosa.load(librosa.example(audio_name, hq=True), sr=None, mono=True)
 
 st.write(f"Sample rate: {sr} Hz, Audio shape: {audio.shape}")
-audio_segment = AudioSegment(audio.tobytes(), frame_rate=sr, sample_width=audio.dtype.itemsize, channels=1)
+audio_int16 = np.int16(audio * 32767)
+audio_segment = AudioSegment(audio_int16.tobytes(), frame_rate=sr, sample_width=audio_int16.dtype.itemsize, channels=1)
 buffer = io.BytesIO()
 audio_segment.export(buffer, format="mp3")
 buffer.seek(0)
@@ -39,8 +40,8 @@ standard_cepstrum = pipelines.EchoMark.features.cepstrum(audio)[:200]
 
 st.line_chart(standard_cepstrum)
 
-alpha = st.slider("Pick alpha", 0.01, 1.0)
-delta = st.slider("Pick delta", 25, 100)
+alpha = st.slider("Pick alpha", 0.01, 1.0, 0.4)
+delta = st.slider("Pick delta", 25, 100, 75)
 
 echo_audio = pipelines.EchoMark.features.add_echo_to_audio(data=audio, alpha=alpha, delta=delta,
                                                            generate_keys=False)
@@ -48,9 +49,9 @@ echo_audio = pipelines.EchoMark.features.add_echo_to_audio(data=audio, alpha=alp
 echo_cepstrum = pipelines.EchoMark.features.cepstrum(echo_audio)[:200]
 st.line_chart(echo_cepstrum)
 
-echo_audio_normalised= echo_audio / np.max(np.abs(echo_audio))
-echo_audio_segment = AudioSegment(echo_audio_normalised.tobytes(), frame_rate=sr, sample_width=echo_audio_normalised.dtype.itemsize, channels=1)
+echo_audio_int16 = np.int16(echo_audio * 32767)
+echo_audio_segment = AudioSegment(echo_audio_int16.tobytes(), frame_rate=sr, sample_width=echo_audio_int16.dtype.itemsize, channels=1)
 buffer_echo = io.BytesIO()
-audio_segment.export(buffer_echo, format="mp3")
+echo_audio_segment.export(buffer_echo, format="mp3")
 buffer_echo.seek(0)
 st.audio(buffer_echo, format="audio/mp3")
