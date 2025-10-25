@@ -7,6 +7,7 @@ from pydub import AudioSegment
 
 import pipelines.EchoMark.features
 
+# Lista utworór pokazana po wywołaniu librosa.util.files.list_examples()
 librosa_list_examples = """brahms          Brahms - Hungarian Dance #5
 choice          Admiral Bob - Choice (drum+bass)
 fishin          Karissa Hobbs - Let's Go Fishin'
@@ -40,11 +41,40 @@ standard_cepstrum = pipelines.EchoMark.features.cepstrum(audio)[:200]
 
 st.line_chart(standard_cepstrum)
 
-alpha = st.slider("Pick alpha", 0.01, 1.0, 0.4)
-delta = st.slider("Pick delta", 25, 100, 75)
+# Inicjalizacja stanu sesji
+if 'num_boxes' not in st.session_state:
+    st.session_state.num_boxes = 0
+if 'sliders' not in st.session_state:
+    st.session_state.sliders = {}
+if 'box_ids' not in st.session_state:
+    st.session_state.box_ids = []
 
-echo_audio = pipelines.EchoMark.features.add_echo_to_audio(data=audio, alpha=alpha, delta=delta,
-                                                           generate_keys=False)
+# Przycisk do dodawania echa
+if st.button("Dodaj nowe echo"):
+    st.session_state.num_boxes += 1
+    new_id = st.session_state.num_boxes
+    st.session_state.box_ids.append(new_id)
+    st.session_state.sliders[new_id] = [0.0, 0]
+
+# Wyświetlanie okienek z suwakami
+for box_id in st.session_state.box_ids[:]:  # Kopia listy, aby uniknąć błędów przy usuwaniu
+    with st.expander(f"Echo {box_id}"):
+        alpha = st.slider(f"Alpha", min_value=0.01, max_value=1.0, value=st.session_state.sliders[box_id][0],
+                          key=f"alpha_{box_id}")
+        delta = st.slider(f"Delta", min_value=25, max_value=100, value=st.session_state.sliders[box_id][1],
+                          key=f"delta_{box_id}")
+        st.session_state.sliders[box_id] = [alpha, delta]
+
+        # Przycisk "Usuń"
+        if st.button("Usuń echo", key=f"delete_{box_id}"):
+            st.session_state.box_ids.remove(box_id)
+            del st.session_state.sliders[box_id]
+
+echo_audio = audio
+for value in st.session_state.sliders.values():
+    alpha, delta = value[0], value[1]
+    echo_audio = pipelines.EchoMark.features.add_echo_to_audio(data=echo_audio, alpha=alpha, delta=delta,
+                                                               generate_keys=False)
 
 echo_cepstrum = pipelines.EchoMark.features.cepstrum(echo_audio)[:200]
 st.line_chart(echo_cepstrum)
