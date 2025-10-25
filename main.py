@@ -26,14 +26,14 @@ title_desc = {pack.split("  ")[-1]: pack.split("  ")[0] for pack in title_desc}
 audio_title = st.radio("Pick example from librosa", title_desc.keys())
 audio_name = title_desc[audio_title]
 if audio_title is not None:
-    audio, sr = librosa.load(librosa.example(audio_name, hq=True), sr=None, mono=False)
+    audio, sr = librosa.load(librosa.example(audio_name, hq=True), sr=None, mono=True)
 
 st.write(f"Sample rate: {sr} Hz, Audio shape: {audio.shape}")
 audio_segment = AudioSegment(audio.tobytes(), frame_rate=sr, sample_width=audio.dtype.itemsize, channels=1)
 buffer = io.BytesIO()
-audio_segment.export(buffer, format="flac")
+audio_segment.export(buffer, format="mp3")
 buffer.seek(0)
-st.audio(buffer, format="audio/flac")
+st.audio(buffer, format="audio/mp3")
 
 standard_cepstrum = pipelines.EchoMark.features.cepstrum(audio)[:200]
 
