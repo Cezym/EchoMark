@@ -1,10 +1,6 @@
 import streamlit as st
 
-from ui.tabs.detect_tab import DetectTab
-from ui.tabs.embed_tab import EmbedTab
-from ui.tabs.experiments_tab import ExperimentsTab
-from ui.tabs.librosa_tab import LibrosaTab
-from ui.tabs.help_tab import HelpTab
+from ui.tabs import DetectTab, EmbedTab, ExperimentsTab, HelpTab, LibrosaTab
 
 
 class UI:
