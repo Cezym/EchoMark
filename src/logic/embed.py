@@ -16,7 +16,6 @@ def embed_echo(
     delta: int,
     watermark: str | None = None,
 ) -> np.ndarray:
-    print(np.max(audio))
     bipolar = watermark_to_bipolar(watermark) if watermark else None
     return add_echo(audio, alpha, delta, bipolar)
 
