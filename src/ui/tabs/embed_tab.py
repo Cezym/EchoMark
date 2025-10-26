@@ -5,7 +5,7 @@ import soundfile as sf
 import streamlit as st
 from scipy.io import wavfile
 
-from pipelines.EchoMark.features import add_echo_to_audio, embed_watermark, generate_watermark
+from logic.embed import add_echo_to_audio, embed_watermark, generate_watermark
 
 
 class EmbedTab:

@@ -5,11 +5,11 @@ import numpy as np
 import streamlit as st
 from pydub import AudioSegment
 
-import pipelines.EchoMark.features
+from logic.embed import cepstrum, add_echo_to_audio
 
 
 class LibrosaTab:
-    title = "🔍 Librosa example"
+    title = "🧪 Librosa example"
 
     def __init__(self):
         st.subheader(LibrosaTab.title)
@@ -47,7 +47,7 @@ class LibrosaTab:
         buffer.seek(0)
         st.audio(buffer, format="audio/mp3")
 
-        standard_cepstrum = pipelines.EchoMark.features.cepstrum(audio)[:200]
+        standard_cepstrum = cepstrum(audio)[:200]
 
         st.line_chart(standard_cepstrum)
 
@@ -83,10 +83,10 @@ class LibrosaTab:
         echo_audio = audio
         for value in st.session_state.sliders.values():
             alpha, delta = value[0], value[1]
-            echo_audio = pipelines.EchoMark.features.add_echo_to_audio(data=echo_audio, alpha=alpha, delta=delta,
+            echo_audio = add_echo_to_audio(data=echo_audio, alpha=alpha, delta=delta,
                                                                     generate_keys=False)
 
-        echo_cepstrum = pipelines.EchoMark.features.cepstrum(echo_audio)[:200]
+        echo_cepstrum = cepstrum(echo_audio)[:200]
         st.line_chart(echo_cepstrum)
 
         echo_audio_int16 = np.int16(echo_audio * 32767)

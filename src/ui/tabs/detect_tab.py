@@ -4,7 +4,7 @@ import numpy as np
 import streamlit as st
 from scipy.io import wavfile
 
-from pipelines.EchoMark.detect import detect_watermark
+from logic.detect import detect_watermark
 
 
 class DetectTab:
