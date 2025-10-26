@@ -1,5 +1,6 @@
 import numpy as np
-from scipy.fft import fft, ifft
+
+from logic.utils import cepstrum as cepstrum_fun
 
 
 def detect_watermark(
@@ -12,31 +13,12 @@ def detect_watermark(
     snr_threshold: float = 5.0,
     local_ratio: float = 2.0,
 ) -> dict:
-    """
-    Detects simple echo or time-spread watermark in audio with improved reliability.
-
-    :param audio: 1D numpy array (float32, mono, normalized)
-    :param rate: sample rate of the audio
-    :param method: "simple" or "time-spread"
-    :param expected_watermark_hex: required if method="time-spread"
-    :param search_range: tuple (start, end) for cepstrum peak search (samples)
-    :param sigma_factor: how many std dev above mean is considered a detection
-    :param snr_threshold: minimum peak-to-mean ratio for detection
-    :param local_ratio: how many times higher than local neighborhood peak must be
-    :return: dict with detection info
-    """
     if audio.ndim != 1:
         raise ValueError("Audio must be mono (1D numpy array).")
-
-    # --- Compute cepstrum ---
-    spectrum = fft(audio)
-    cepstrum = np.real(ifft(np.log(np.abs(spectrum) + 1e-10)))
+    cepstrum = cepstrum_fun(audio)
 
     result = {"method": method, "detected": False}
 
-    # ==========================================================
-    # SIMPLE ECHO DETECTION
-    # ==========================================================
     if method == "simple":
         start, end = search_range
         segment = cepstrum[start:end]
@@ -65,9 +47,6 @@ def detect_watermark(
             }
         )
 
-    # ==========================================================
-    # TIME-SPREAD WATERMARK DETECTION
-    # ==========================================================
     elif method == "time-spread":
         if expected_watermark_hex is None:
             raise ValueError(
@@ -91,7 +70,6 @@ def detect_watermark(
         threshold = mu + sigma_factor * sigma
         snr_ratio = peak_val / (np.mean(np.abs(corr)) + 1e-12)
 
-        # --- Safe local max calculation ---
         win = 50
         left = max(0, peak_idx - win)
         right = min(len(corr), peak_idx + win)
