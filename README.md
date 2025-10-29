@@ -8,12 +8,6 @@
 | Szymon Jankowski  | [![GitHub](https://img.shields.io/badge/GitHub-szymonjank111-181717?logo=github)](https://github.com/szymonjank111) |
 | Ireneusz Okniński | [![GitHub](https://img.shields.io/badge/GitHub-AndFirst-181717?logo=github)](https://github.com/AndFirst)           |
 
-<style>
-    th {
-        display: none;
-    }
-</style>
-
 ## Inspiration
 
 In the article [Tralie et al., 2024](https://doi.org/10.48550/arXiv.2412.10649) it was shown that generative models can
