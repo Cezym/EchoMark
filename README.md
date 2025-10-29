@@ -53,7 +53,7 @@ run script to reproduce our experiments.
 
 ### App
 
-    make app
+    uv run src/main.py
 
 ### Experiments
 
