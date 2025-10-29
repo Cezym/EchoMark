@@ -36,8 +36,6 @@ greater amount of information while preserving the audio quality.
 
 ### Simple echo
 
-This technique
-
 ### Time spread echo
 
 ## Usage
