@@ -22,8 +22,8 @@ with a specific watermark.
 
 In addition to developing the application, several experiments were conducted:
 
-1. Experiment 1
-2. Experiment 2
+1. Experiment 1 Placeholder
+2. Experiment 2 Placeholder
 
 ## What is it?
 
