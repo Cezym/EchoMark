@@ -1,8 +1,8 @@
 from io import BytesIO
 
 import numpy as np
-from numpy import log, abs
-from numpy.fft import ifft, fft
+from numpy import abs, log
+from numpy.fft import fft, ifft
 from pydub import AudioSegment
 
 LOG_FLOOR = 0.00001

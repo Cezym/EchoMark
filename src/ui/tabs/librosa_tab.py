@@ -3,8 +3,7 @@ import numpy as np
 import streamlit as st
 
 from logic.embed import embed_echo
-from logic.utils import cepstrum
-from logic.utils import normalize_audio, audio_to_mp3_buffer
+from logic.utils import audio_to_mp3_buffer, cepstrum, normalize_audio
 
 
 class LibrosaTab:
