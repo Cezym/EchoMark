@@ -130,3 +130,13 @@ dask-worker-space
 
 # Pycharm
 .idea
+
+# Models results
+src/models/ddsp/results/
+notebooks/input
+notebooks/output
+notebooks/pretrained_model
+notebooks/results
+
+# Models data
+src/data
