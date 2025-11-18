@@ -2,7 +2,7 @@ import numpy as np
 import torch
 from torch import nn
 
-from utils import fftconvolve, upsample_time
+from .utils import fftconvolve, upsample_time
 
 
 def synthesize_subtractive(S, hop_length):

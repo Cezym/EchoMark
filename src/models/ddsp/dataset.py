@@ -5,7 +5,7 @@ import tqdm
 from torch.utils.data import Dataset
 import librosa
 
-from utils import extract_loudness, extract_pitch_torchcrepe
+from .utils import extract_loudness, extract_pitch_torchcrepe
 
 
 def walk_dir(dir:str, ext="wav"):
