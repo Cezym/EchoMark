@@ -4,10 +4,10 @@ import librosa
 import soundfile as sf
 import os
 
-from model import DDSPDecoder
+from .model import DDSPDecoder
 
 
-def do_evaluation(model_path, input_audio_path, output_audio_path, device='cuda', pitch_shift=0, sr=44100, hop_length=441, reverb_len=44100 ):
+def transfer_audio_style(model_path, input_audio, device='cuda', pitch_shift=0, sr=44100, hop_length=441, reverb_len=44100):
     model = DDSPDecoder(mlp_depth=3, n_units=512, n_harmonics=50, n_bands=65,
                         hop_length=hop_length, sr=sr, reverb_len=reverb_len)
     model.load_from_file(model_path)
@@ -15,12 +15,14 @@ def do_evaluation(model_path, input_audio_path, output_audio_path, device='cuda'
     model.eval()
     print("Evaluating...")
 
-    # Load example audio for evaluation
+    return model.style_transfer(input_audio, device=device, pitch_shift=pitch_shift)
+
+
+def do_evaluation(model_path, input_audio_path, output_audio_path, device='cuda', pitch_shift=0, sr=44100, hop_length=441, reverb_len=44100 ):
     x, sr = librosa.load(input_audio_path, sr=sr)
     x = x.astype(np.float32)
 
-    # Do style transfer (synthesis based on input)
-    y = model.style_transfer(x, device=device, pitch_shift=pitch_shift)
+    y = transfer_audio_style(model_path, x, device, pitch_shift, sr, hop_length, reverb_len)
 
     # Save synthesised audio
     os.makedirs(os.path.dirname(output_audio_path), exist_ok=True)

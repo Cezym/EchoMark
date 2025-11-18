@@ -3,8 +3,8 @@ import torch
 from torch import nn
 import time
 
-from utils import extract_pitch_torchcrepe, extract_loudness
-from synthesis import synthesize_additive
+from .utils import extract_pitch_torchcrepe, extract_loudness
+from .synthesis import synthesize_additive
 
 
 class MLP(nn.Module):
