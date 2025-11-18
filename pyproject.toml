@@ -17,6 +17,9 @@ dependencies = [
     "wavfile>=4.7.2",
     "pydub>=0.25.1",
     "streamlit>=1.50.0",
+    "torch>=2.4.1",
+    "tqdm>=4.66.5",
+    "torchcrepe>=0.0.20",
 ]
 
 [project.optional-dependencies]
