@@ -24,7 +24,11 @@ dependencies = [
     "torch>=2.4.1",
     "tqdm>=4.66.5",
     "torchcrepe>=0.0.20",
+<<<<<<< HEAD
 >>>>>>> 27aba40 (Added dependencies to pyproject.toml needed for DDSP)
+=======
+    "requests",
+>>>>>>> 9d963ac (Added file that downloads and unzips dataset)
 ]
 
 [project.optional-dependencies]
