@@ -36,7 +36,7 @@ class ModelsTab:
         )
 
         if model == "DDSP":
-            pretrained_options = ("Violin")
+            pretrained_options = ("Groove", "Guitar")
         elif model == "SAOS":
             pretrained_options = ()
             st.warning("⚠️ SAOS is not implemented yet. Style transfer is disabled for this model.")
@@ -50,7 +50,8 @@ class ModelsTab:
 
         model_paths = {
             "DDSP": {
-                "Violin": "src/models/ddsp/pretrained_models/violin.pkl",
+                "Groove": "src/models/ddsp/pretrained_models/groove.pkl",
+                "Guitar": "src/models/ddsp/pretrained_models/guitar.pkl",
             }
         }
 
