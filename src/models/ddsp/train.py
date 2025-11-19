@@ -7,16 +7,15 @@ import time
 import matplotlib.pyplot as plt
 from scipy.io import wavfile
 
-from dataset import InstrumentDataset
-from model import DDSPDecoder
-from utils import mss_loss, plot_stft_comparison
-from synthesis import synthesize_additive
+from .dataset import InstrumentDataset
+from .model import DDSPDecoder
+from .utils import mss_loss, plot_stft_comparison
+from .synthesis import synthesize_additive
 
 
 def do_training(dataset_path, output_path, device='cuda', ext='wav', sr=44100, hop_length=441,
                 batch_size=16, num_epochs=100, samples_per_epoch=5000, reverb_len=44100):
-    if not os.path.exists(output_path):
-        os.mkdir(output_path)
+    os.makedirs(output_path, exist_ok=True)
 
     data = InstrumentDataset(device, dataset_path, ext, sr, hop_length, samples_per_epoch=samples_per_epoch)
 
