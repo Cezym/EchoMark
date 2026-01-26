@@ -46,13 +46,7 @@ run script to reproduce our experiments.
 ### App
 
     uv sync
-    uv run streamlit run src/main.py 
-
-### Experiments
-
-    TODO
-
-## Our experiments
+    uv run streamlit run src/main.py
 
 ## Bibliography
 
